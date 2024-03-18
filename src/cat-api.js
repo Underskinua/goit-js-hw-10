@@ -1,21 +1,33 @@
+const API_KEY = "live_7hWYQiyzXepcBfYts6iFS4paXCTpeplBe52rSiD9unGzwsdmE4oDRxhdiwZOENgY";
+
+const url = "https://api.thecatapi.com/v1";
+
 export async function fetchBreeds() {
-    try {
-        const response = await axios.get("https://api.thecatapi.com/v1/breeds");
-        return response.data;
-      } catch (error) {
-        console.error("Ошибка при получении списка пород:", error);
-    // Вы можете повторно выбросить ошибку для обработки в `index.js`
-        throw error;
-      }
+  try {
+    const response = await fetch(`${url}/breeds?api_key=${API_KEY}`);
+
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    throw error; // or handle error in your way
   }
-// Информация про кота
-  export async function fetchCatByBreed(breedId) {
-    try {
-        const response = await axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}`);
-        return response.data;
-      } catch (error) {
-        console.error("Ошибка при получении информации о коте:", error);
-        // Вы можете повторно выбросить ошибку для обработки в `index.js`
-        // throw error;
-      }
+}
+
+export async function fetchCatByBreed(breedId) {
+  try {
+    const response = await fetch(`${url}/images/search?api_key=${API_KEY}&breed_ids=${breedId}`);
+
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    throw error; // or handle error in your way
   }
+}
